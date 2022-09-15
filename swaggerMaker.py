@@ -50,7 +50,7 @@ with open("./res.json", "r", encoding="utf-8") as f:
             if(resultStr is not None):
                 result += resultStr
             layer = resultLayer
-            if("{" in token[1]):
+            if("[" in token[1] or "{" in token[1]):
                 layers.append(1)
 
         else:
@@ -58,10 +58,12 @@ with open("./res.json", "r", encoding="utf-8") as f:
             if(resultStr is not None):
                 result += resultStr
             layer = resultLayer
-            if("{" in token[0]):
+            if("[" in token[0] or "{" in token[0]):
                 layers.append(0)
-            if("}" in token[0]):
+            elif("}" in token[0] or "]" in token[0]):
                 layer -= layers[-1]
                 layers.pop()
+            else:
+                layer += 1
     for line in result:
         print(prefix + line)
